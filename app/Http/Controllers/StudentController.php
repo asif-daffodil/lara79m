@@ -50,7 +50,7 @@ class StudentController extends Controller
      */
     public function show(student $student)
     {
-        //
+        return view("student.showStudent", compact("student"));
     }
 
     /**
@@ -58,7 +58,7 @@ class StudentController extends Controller
      */
     public function edit(student $student)
     {
-        //
+        return view("student.editStudent", compact("student"));
     }
 
     /**
@@ -66,7 +66,19 @@ class StudentController extends Controller
      */
     public function update(Request $request, student $student)
     {
-        //
+        $request->validate([
+            "sname" => "required | min:5 | regex:/^[A-Za-z. ]*$/"
+        ], [
+            'sname.required' => 'Please provide the student name',
+            'sname.min' => 'The name is very small',
+            'sname.regex' => 'Invalid name format',
+        ]);
+        $student->name = $request->sname;
+        $student->save();
+
+        $msg = $request->sname . " Uppdated successfully";
+
+        return redirect()->back()->with("smsg", $msg);
     }
 
     /**
@@ -74,6 +86,8 @@ class StudentController extends Controller
      */
     public function destroy(student $student)
     {
-        //
+        $student->delete();
+        $msg = $student->name . " Deleted successfully";
+        return redirect()->back()->with("smsg", $msg);
     }
 }

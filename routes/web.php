@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileCrudController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\YousufController;
@@ -51,3 +52,4 @@ Route::controller(YousufController::class)->prefix("yousuf")->group(function () 
 });
 
 Route::resource('/student', StudentController::class);
+Route::resource('/files', FileCrudController::class);

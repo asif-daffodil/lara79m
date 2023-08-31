@@ -14,12 +14,23 @@
                         <td>{{ $allStudent->firstItem() + $loop->index }}</td>
                         <td>{{ $std->name }}</td>
                         <td>
-                            <a href="#" class="btn btn-warning btn-sm">Edit</a>
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                            <a href={{ route('student.show', $std->id) }} class="btn btn-primary btn-sm">View</a>
+                            <a href={{ route('student.edit', $std->id) }} class="btn btn-warning btn-sm">Edit</a>
+                            <form action={{ route('student.destroy', $std->id) }} method="post" class="d-inline">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
             </table>
+            @if (session()->get('smsg'))
+                <div class="alert alert-danger alert-dismissible">
+                    <button class="btn-close" data-bs-dismiss="alert"></button>
+                    {{ session('smsg') }}
+                </div>
+            @endif
             {{ $allStudent->links() }}
         </div>
     </div>
